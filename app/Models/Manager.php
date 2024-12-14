@@ -42,7 +42,12 @@ class Manager extends Model
         ];
     }
 
-    public function courses(){
+    public function courses()
+    {
         return $this->hasMany(Course::class);
+    }
+    public function instructors()
+    {
+        return $this->hasMany(Instructor::class);
     }
 }

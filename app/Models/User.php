@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Additional methods and relationships can be added here
+    public function courses(){
+        return $this->belongsToMany(Course::class)->withTimestamps();
+    }
 }

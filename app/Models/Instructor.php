@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class Instructor extends Model
 {
     /** @use HasFactory<\Database\Factories\InstructorFactory> */
-    use HasFactory, HasApiTokens, HasRoles;
+    use HasFactory, HasApiTokens, HasRoles,SoftDeletes;
     protected $fillable = [
         'name',
         'email',
@@ -38,5 +39,12 @@ class Instructor extends Model
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
+    public function manager(){
+        return $this->belongsTo(Manager::class);
     }
 }

@@ -16,4 +16,10 @@ class Course extends Model
     public function manager(){
         $this->belongsTo(Manager::class);
     }
+    public function instructor(){
+        $this->hasOne(Instructor::class);
+    }
+    public function students(){
+        $this->belongsToMany(User::class)->withTimestamps();
+    }
 }
