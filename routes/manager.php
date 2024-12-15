@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\V1\UserAuth\UserAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
-Route::prefix('user')->group(function () {
+Route::prefix('manager')->group(function () {
     Route::prefix('auth')->controller(UserAuthController::class)->group(function () {
         Route::post('/login', 'login');
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
