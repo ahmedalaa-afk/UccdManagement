@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\V1\ManagerAuth\ManagerAuthController;
+use App\Http\Controllers\Api\V1\InstructorAuth\InstructorAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
-Route::prefix('instructors')->group(function () {
-    Route::prefix('auth')->controller(ManagerAuthController::class)->group(function () {
+Route::prefix('instructor')->group(function () {
+    Route::prefix('auth')->controller(InstructorAuthController::class)->group(function () {
         Route::post('/login', 'login');
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
     });

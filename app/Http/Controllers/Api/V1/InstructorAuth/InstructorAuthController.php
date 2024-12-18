@@ -9,7 +9,7 @@ use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class InstructorController extends Controller
+class InstructorAuthController extends Controller
 {
     public function login(InstructorLoginRequest $request)
     {
@@ -19,9 +19,9 @@ class InstructorController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'password' => $user->password,
-                'token' => $user->createToken('loginManagerToken')->plainTextToken,
+                'token' => $user->createToken('loginInstructorToken')->plainTextToken,
             ];
-            return ApiResponse::sendResponse('Manager Log in successfully', $data);
+            return ApiResponse::sendResponse('Instructor Log in successfully', $data);
         }
         return ApiResponse::sendResponse('Invalid credentials', []);
     }
@@ -31,9 +31,9 @@ class InstructorController extends Controller
 
         if ($user) {
             $user->tokens()->delete();
-            return ApiResponse::sendResponse('Manager logged out successfully', []);
+            return ApiResponse::sendResponse('Instructor logged out successfully', []);
         }
 
-        return ApiResponse::sendResponse('Manager is not authenticated', []);
+        return ApiResponse::sendResponse('Instructor is not authenticated', []);
     }
 }
