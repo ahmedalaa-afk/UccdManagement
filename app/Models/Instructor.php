@@ -18,6 +18,8 @@ class Instructor extends Authenticatable
         'name',
         'email',
         'password',
+        'description',
+        'manager_id',
     ];
 
     /**

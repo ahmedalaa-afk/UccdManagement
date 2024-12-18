@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateInstructorRequest;
 use App\Models\Manager;
 use App\Http\Requests\StoreManagerRequest;
 use App\Http\Requests\UpdateManagerRequest;
+use App\Models\Instructor;
+use Illuminate\Support\Facades\Auth;
 
 class ManagerController extends Controller
 {
@@ -15,6 +19,22 @@ class ManagerController extends Controller
     public function index()
     {
         //
+    }
+
+    public function getAllInstructors(){
+        $instructors = Instructor::all();
+        return ApiResponse::sendResponse('All Instructions retrieved successfully', $instructors);
+    }
+    public function CreateInstructor(CreateInstructorRequest $request){
+        $manager = Manager::first();
+        $instructor = Instructor::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'description' => $request->description,
+            'manager_id' => $manager->id,
+        ]);
+        return ApiResponse::sendResponse('Instructor created successfully', $instructor);
     }
 
     /**
