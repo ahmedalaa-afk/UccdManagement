@@ -21,4 +21,10 @@ Route::prefix('manager')->group(function () {
         Route::post('/create','CreateInstructor');
         Route::post('/delete','deleteInstructor');
     })->middleware('auth:sanctum');
+
+    Route::prefix('course')->controller(ManagerController::class)->group(function(){
+        Route::get('/','getAllCourses');
+        Route::post('/create','CreateCourse');
+        Route::post('/delete','deleteCourse');
+    })->middleware('auth:sanctum');
 });

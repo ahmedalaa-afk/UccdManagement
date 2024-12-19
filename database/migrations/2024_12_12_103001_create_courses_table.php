@@ -17,10 +17,11 @@ return new class extends Migration
             $table->longText('description');
             $table->string('location');
             $table->enum('status',['soon','active','completed'])->default('soon');
-            $table->timestamps('start_at');
-            $table->timestamps('end_at');
+            $table->timestamp('start_at');
+            $table->timestamp('end_at');
             $table->timestamps();
             $table->foreignId('manager_id')->constrained();
+            $table->foreignId('instructor_id')->constrained();
             $table->softDeletes();
         });
     }

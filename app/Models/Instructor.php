@@ -46,7 +46,7 @@ class Instructor extends Authenticatable
     }
 
     public function course(){
-        return $this->belongsTo(Course::class);
+        return $this->hasOne(Course::class);
     }
     public function manager(){
         return $this->belongsTo(Manager::class);
