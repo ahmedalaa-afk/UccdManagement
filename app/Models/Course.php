@@ -11,15 +11,15 @@ class Course extends Model
     /** @use HasFactory<\Database\Factories\CourseFactory> */
     use HasFactory,SoftDeletes;
 
-    protected $fillable=['title', 'description','location','start_at','end_at','status','manager_id','instructor_id'];
+    protected $fillable=['title','slug', 'description','location','start_at','end_at','status','manager_id','instructor_id'];
 
     public function manager(){
-        $this->belongsTo(Manager::class);
+        return $this->belongsTo(Manager::class);
     }
     public function instructor(){
-        $this->belongsTo(Instructor::class);
+        return $this->belongsTo(Instructor::class);
     }
     public function students(){
-        $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)->withTimestamps();
     }
 }

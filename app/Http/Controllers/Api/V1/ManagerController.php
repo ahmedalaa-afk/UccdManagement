@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Helpers\ApiResponse;
+use App\Helpers\Slugable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\craeteCourseRequest;
 use App\Http\Requests\CreateInstructorRequest;
@@ -10,11 +11,11 @@ use App\Http\Requests\DeleteInstructorRequest;
 use App\Models\Manager;
 use App\Http\Requests\StoreManagerRequest;
 use App\Http\Requests\UpdateManagerRequest;
+use App\Http\Resources\CreateCourseResource;
 use App\Models\Course;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 class ManagerController extends Controller
 {
     /**
@@ -61,6 +62,7 @@ class ManagerController extends Controller
         if ($instructor) {
             $course = Course::create([
                 'title' => $request->title,
+                'slug' => uuid_create(),
                 'description' => $request->description,
                 'instructor_id' => $instructor->id,
                 'location' => $request->location,
@@ -69,10 +71,12 @@ class ManagerController extends Controller
                 'end_at' => $request->end_at,
                 'manager_id' => $instructor->manager->id,
             ]);
-            return ApiResponse::sendResponse('Course created successfully', $course);
+            return ApiResponse::sendResponse('Course created successfully', new CreateCourseResource($course));
         }
         return ApiResponse::sendResponse('Instructor not found', []);
     }
+
+    public function deleteCourse() {}
 
     /**
      * Show the form for creating a new resource.
