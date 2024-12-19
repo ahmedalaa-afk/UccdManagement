@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api\V1;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateInstructorRequest;
+use App\Http\Requests\DeleteInstructorRequest;
 use App\Models\Manager;
 use App\Http\Requests\StoreManagerRequest;
 use App\Http\Requests\UpdateManagerRequest;
 use App\Models\Instructor;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ManagerController extends Controller
@@ -35,6 +37,15 @@ class ManagerController extends Controller
             'manager_id' => $manager->id,
         ]);
         return ApiResponse::sendResponse('Instructor created successfully', $instructor);
+    }
+
+    public function deleteInstructor(DeleteInstructorRequest $request){
+        $instructor = Instructor::where('email',$request->email)->first();
+        if($instructor){
+            $instructor->delete();
+            return ApiResponse::sendResponse('Instructor deleted successfully', []);
+        }
+        return ApiResponse::sendResponse('Instructor not found', []);
     }
 
     /**

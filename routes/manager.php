@@ -19,5 +19,6 @@ Route::prefix('manager')->group(function () {
     Route::prefix('instructor')->controller(ManagerController::class)->group(function(){
         Route::get('/','getAllInstructors');
         Route::post('/create','CreateInstructor');
+        Route::post('/delete','deleteInstructor');
     })->middleware('auth:sanctum');
 });
