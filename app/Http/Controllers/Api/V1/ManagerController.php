@@ -7,6 +7,7 @@ use App\Helpers\Slugable;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\craeteCourseRequest;
 use App\Http\Requests\CreateInstructorRequest;
+use App\Http\Requests\DeleteCourseRequest;
 use App\Http\Requests\DeleteInstructorRequest;
 use App\Models\Manager;
 use App\Http\Requests\StoreManagerRequest;
@@ -76,7 +77,14 @@ class ManagerController extends Controller
         return ApiResponse::sendResponse('Instructor not found', []);
     }
 
-    public function deleteCourse() {}
+    public function deleteCourse(DeleteCourseRequest $request) {
+        $course = Course::where('slug', $request->slug)->first();
+        if($course){
+            $course->delete();
+            return ApiResponse::sendResponse('Course Deleted Successfuly',[]);
+        }
+        return ApiResponse::sendResponse('Course not found',[]);
+    }
 
     /**
      * Show the form for creating a new resource.
