@@ -12,6 +12,7 @@ use App\Http\Requests\DeleteInstructorRequest;
 use App\Models\Manager;
 use App\Http\Requests\StoreManagerRequest;
 use App\Http\Requests\UpdateManagerRequest;
+use App\Http\Resources\CoursesResource;
 use App\Http\Resources\CreateCourseResource;
 use App\Models\Course;
 use App\Models\Instructor;
@@ -55,7 +56,13 @@ class ManagerController extends Controller
         return ApiResponse::sendResponse('Instructor not found', []);
     }
 
-    public function getAllCourses() {}
+    public function getAllCourses() {
+        $courses = Course::all();
+        if($courses){
+            return ApiResponse::sendResponse('All Courses retrieved successfully', CoursesResource::collection($courses));
+        }
+        return ApiResponse::sendResponse('No Courses found',[]);
+    }
 
     public function CreateCourse(craeteCourseRequest $request)
     {
