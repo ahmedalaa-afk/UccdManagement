@@ -17,6 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('gender',['male','female']);
+            $table->enum('disability',['yes','no']);
+            $table->string('national_id');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('university_id');
+            $table->string('university');
+            $table->string('faculty');
+            $table->string('specialization');
+            $table->string('current_year');
+            $table->timestamp('graduation_year');
+            $table->timestamp('birth_date');
             $table->rememberToken();
             $table->timestamps();
         });

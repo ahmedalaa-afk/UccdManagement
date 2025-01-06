@@ -27,4 +27,10 @@ Route::prefix('manager')->group(function () {
         Route::post('/create','CreateCourse');
         Route::post('/delete','deleteCourse');
     })->middleware('auth:sanctum');
+
+    Route::prefix('student')->controller(ManagerController::class)->group(function(){
+        Route::get('/','getAllStudents');
+        Route::post('/import','importStudent');
+        Route::post('/export','deleteStudent');
+    });
 });
