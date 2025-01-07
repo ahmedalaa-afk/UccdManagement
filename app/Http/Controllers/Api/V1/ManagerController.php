@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Exports\ExportStudent;
 use App\Helpers\ApiResponse;
 use App\Helpers\Slugable;
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ use App\Http\Resources\CreateCourseResource;
 use App\Imports\StudentsImport;
 use App\Models\Course;
 use App\Models\Instructor;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -113,6 +115,10 @@ class ManagerController extends Controller
         } catch (\Exception $e) {
             return ApiResponse::sendResponse('Import failed', ['error' => $e->getMessage()]);
         }
+    }
+
+    public function exportStudent(){
+        return Excel::download(new ExportStudent(), 'Students.xlsx');
     }
 
 

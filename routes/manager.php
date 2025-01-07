@@ -31,6 +31,6 @@ Route::prefix('manager')->group(function () {
     Route::prefix('student')->controller(ManagerController::class)->group(function(){
         Route::get('/','getAllStudents');
         Route::post('/import','importStudent');
-        Route::post('/export','deleteStudent');
+        Route::get('/export','exportStudent');
     });
 });
