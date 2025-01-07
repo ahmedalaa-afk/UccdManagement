@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('university');
             $table->string('faculty');
             $table->string('specialization');
-            $table->string('current_year');
+            $table->enum('current_year',[1,2,3,4]);
             $table->timestamp('graduation_year');
             $table->timestamp('birth_date');
             $table->rememberToken();

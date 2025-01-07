@@ -9,15 +9,19 @@ use App\Http\Requests\craeteCourseRequest;
 use App\Http\Requests\CreateInstructorRequest;
 use App\Http\Requests\DeleteCourseRequest;
 use App\Http\Requests\DeleteInstructorRequest;
+use App\Http\Requests\ImportStudentsRequset;
 use App\Models\Manager;
 use App\Http\Requests\StoreManagerRequest;
 use App\Http\Requests\UpdateManagerRequest;
 use App\Http\Resources\CoursesResource;
 use App\Http\Resources\CreateCourseResource;
+use App\Imports\StudentsImport;
 use App\Models\Course;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+
 class ManagerController extends Controller
 {
     /**
@@ -56,12 +60,13 @@ class ManagerController extends Controller
         return ApiResponse::sendResponse('Instructor not found', []);
     }
 
-    public function getAllCourses() {
+    public function getAllCourses()
+    {
         $courses = Course::all();
-        if($courses){
+        if ($courses) {
             return ApiResponse::sendResponse('All Courses retrieved successfully', CoursesResource::collection($courses));
         }
-        return ApiResponse::sendResponse('No Courses found',[]);
+        return ApiResponse::sendResponse('No Courses found', []);
     }
 
     public function CreateCourse(craeteCourseRequest $request)
@@ -84,14 +89,33 @@ class ManagerController extends Controller
         return ApiResponse::sendResponse('Instructor not found', []);
     }
 
-    public function deleteCourse(DeleteCourseRequest $request) {
+    public function deleteCourse(DeleteCourseRequest $request)
+    {
         $course = Course::where('slug', $request->slug)->first();
-        if($course){
+        if ($course) {
             $course->delete();
-            return ApiResponse::sendResponse('Course Deleted Successfuly',[]);
+            return ApiResponse::sendResponse('Course Deleted Successfuly', []);
         }
-        return ApiResponse::sendResponse('Course not found',[]);
+        return ApiResponse::sendResponse('Course not found', []);
     }
+
+    public function importStudent(ImportStudentsRequset $request)
+    {
+        // Ensure a valid file is uploaded
+        if (!$request->hasFile('file')) {
+            return ApiResponse::sendResponse('Invalid File', ['error' => 'No file uploaded.']);
+        }
+
+        // Process the import
+        try {
+            Excel::import(new StudentsImport(), $request->file('file')->store('files'));
+            return ApiResponse::sendResponse('Students imported successfully', []);
+        } catch (\Exception $e) {
+            return ApiResponse::sendResponse('Import failed', ['error' => $e->getMessage()]);
+        }
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
