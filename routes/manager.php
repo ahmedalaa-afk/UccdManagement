@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\V1\CourseController;
+use App\Http\Controllers\Api\V1\InstructorController;
 use App\Http\Controllers\Api\V1\ManagerAuth\ManagerAuthController;
 use App\Http\Controllers\Api\V1\ManagerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,18 +19,23 @@ Route::prefix('manager')->group(function () {
         Route::post('/logout', 'logout')->middleware('auth:sanctum');
     });
 
-    Route::prefix('instructor')->controller(ManagerController::class)->group(function(){
+    Route::prefix('instructor')->controller(InstructorController::class)->group(function(){
         Route::get('/','getAllInstructors');
         Route::post('/create','CreateInstructor');
         Route::post('/delete','deleteInstructor');
     })->middleware('auth:sanctum');
 
-    Route::prefix('course')->controller(ManagerController::class)->group(function(){
+    Route::prefix('course')->controller(CourseController::class)->group(function(){
         Route::get('/','getAllCourses');
         Route::post('/create','CreateCourse');
         Route::post('/delete','deleteCourse');
     })->middleware('auth:sanctum');
 
+    Route::prefix('student')->controller(UserController::class)->group(function(){
+        Route::get('/','getAllStudents');
+        Route::post('/import','importStudent');
+        Route::get('/export','exportStudent');
+    });
     Route::prefix('student')->controller(ManagerController::class)->group(function(){
         Route::get('/','getAllStudents');
         Route::post('/import','importStudent');

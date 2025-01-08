@@ -2,66 +2,42 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateInstructorRequest;
+use App\Http\Requests\DeleteInstructorRequest;
 use App\Models\Instructor;
 use App\Http\Requests\StoreInstructorRequest;
 use App\Http\Requests\UpdateInstructorRequest;
+use App\Models\Manager;
 
 class InstructorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function getAllInstructors()
     {
-        //
+        $instructors = Instructor::all();
+        return ApiResponse::sendResponse('All Instructions retrieved successfully', $instructors);
+    }
+    public function CreateInstructor(CreateInstructorRequest $request)
+    {
+        $manager = Manager::first();
+        $instructor = Instructor::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'description' => $request->description,
+            'manager_id' => $manager->id,
+        ]);
+        return ApiResponse::sendResponse('Instructor created successfully', $instructor);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function deleteInstructor(DeleteInstructorRequest $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreInstructorRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Instructor $instructor)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Instructor $instructor)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateInstructorRequest $request, Instructor $instructor)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Instructor $instructor)
-    {
-        //
+        $instructor = Instructor::where('email', $request->email)->first();
+        if ($instructor) {
+            $instructor->delete();
+            return ApiResponse::sendResponse('Instructor deleted successfully', []);
+        }
+        return ApiResponse::sendResponse('Instructor not found', []);
     }
 }
