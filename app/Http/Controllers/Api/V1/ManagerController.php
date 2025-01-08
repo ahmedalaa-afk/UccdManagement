@@ -118,7 +118,12 @@ class ManagerController extends Controller
     }
 
     public function exportStudent(){
-        return Excel::download(new ExportStudent(), 'Students.xlsx');
+        try{
+            return Excel::download(new ExportStudent(), 'Students.xlsx');
+        }
+        catch(\Exception $e){
+            return ApiResponse::sendResponse('Export failed', ['error' => $e->getMessage()]);
+        }
     }
 
 
