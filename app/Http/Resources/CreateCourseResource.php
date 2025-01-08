@@ -16,6 +16,7 @@ class CreateCourseResource extends JsonResource
     {
         return [
             'Course Title' => $request->title,
+            'Course Image' => $this->image,
             'Course Slug' => $this->slug,
             'Course Description' => $request->description,
             'Course Location' => $request->location,

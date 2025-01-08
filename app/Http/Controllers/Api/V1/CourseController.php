@@ -28,10 +28,16 @@ class CourseController extends Controller
     public function CreateCourse(craeteCourseRequest $request)
     {
         $instructor = Instructor::where('email', $request->instructor_email)->first();
+
         if ($instructor) {
+            $image = $request->file('image');
+            $imageName = uuid_create() . '.' . $image->getClientOriginalExtension();
+
+            // Create the course
             $course = Course::create([
                 'title' => $request->title,
                 'slug' => uuid_create(),
+                'image' => 'images/courses/' . $imageName,
                 'description' => $request->description,
                 'instructor_id' => $instructor->id,
                 'location' => $request->location,
@@ -40,10 +46,13 @@ class CourseController extends Controller
                 'end_at' => $request->end_at,
                 'manager_id' => $instructor->manager->id,
             ]);
+
             return ApiResponse::sendResponse('Course created successfully', new CreateCourseResource($course));
         }
-        return ApiResponse::sendResponse('Instructor not found', []);
+
+        return ApiResponse::sendResponse('Instructor not found', [], 404); // Explicitly set status code
     }
+
 
     public function deleteCourse(DeleteCourseRequest $request)
     {

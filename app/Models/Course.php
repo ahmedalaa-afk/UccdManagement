@@ -11,7 +11,7 @@ class Course extends Model
     /** @use HasFactory<\Database\Factories\CourseFactory> */
     use HasFactory,SoftDeletes;
 
-    protected $fillable=['title','slug', 'description','location','start_at','end_at','status','manager_id','instructor_id'];
+    protected $fillable=['title','slug', 'description','location','start_at','image','end_at','status','manager_id','instructor_id'];
 
     public function manager(){
         return $this->belongsTo(Manager::class);

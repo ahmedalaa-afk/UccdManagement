@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\V1\CourseController;
 use App\Http\Controllers\Api\V1\InstructorController;
 use App\Http\Controllers\Api\V1\ManagerAuth\ManagerAuthController;
 use App\Http\Controllers\Api\V1\ManagerController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use PHPUnit\Framework\Attributes\PostCondition;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
@@ -36,9 +38,7 @@ Route::prefix('manager')->group(function () {
         Route::post('/import','importStudent');
         Route::get('/export','exportStudent');
     });
-    Route::prefix('student')->controller(ManagerController::class)->group(function(){
-        Route::get('/','getAllStudents');
-        Route::post('/import','importStudent');
-        Route::get('/export','exportStudent');
+    Route::prefix('post')->controller(PostController::class)->group(function(){
+        Route::get('/','getAllPosts');
     });
 });

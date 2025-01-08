@@ -23,6 +23,7 @@ class craeteCourseRequest extends FormRequest
     {
         return [
             'title' => 'required',
+            'image' => 'required|image|mimes:jpg,png,jpeg|max:2048',
             'description' => 'required',
             'location' => 'required',
             'status' => 'required|in:soon,active,completed',
