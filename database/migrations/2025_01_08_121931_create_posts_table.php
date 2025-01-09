@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('content');
+            $table->string('image');
+            $table->string('video')->nullable();
             $table->foreignId('manager_id')->constrained('managers');
             $table->timestamps();
             $table->softDeletes();

@@ -8,15 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['title', 'content', 'manager_id'];
+    protected $fillable = ['title', 'content', 'manager_id','image','video'];
     public function manager(){
         return $this->belongsTo(Manager::class);
-    }
-    public function image(){
-        return $this->hasOne(PostImage::class);
-    }
-    public function video(){
-        return $this->hasOne(PostVideo::class);
     }
 
 }

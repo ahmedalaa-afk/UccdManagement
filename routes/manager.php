@@ -39,6 +39,9 @@ Route::prefix('manager')->group(function () {
         Route::get('/export','exportStudent');
     });
     Route::prefix('post')->controller(PostController::class)->group(function(){
-        Route::get('/','getAllPosts');
+        Route::get('/','index');
+        Route::post('/create','store');
+        Route::post('/edit','update');
+        Route::post('/delete','destroy');
     });
 });
