@@ -21,6 +21,7 @@ class InstructorController extends Controller
     public function CreateInstructor(CreateInstructorRequest $request)
     {
         $manager = Manager::first();
+
         $instructor = Instructor::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -28,8 +29,12 @@ class InstructorController extends Controller
             'description' => $request->description,
             'manager_id' => $manager->id,
         ]);
+
+        $instructor->assignRole('instructor', 'instructor');
+
         return ApiResponse::sendResponse('Instructor created successfully', $instructor);
     }
+
 
     public function deleteInstructor(DeleteInstructorRequest $request)
     {

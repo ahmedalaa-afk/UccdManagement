@@ -12,7 +12,7 @@ use App\Http\Requests\UpdateCourseRequest;
 use App\Http\Resources\CoursesResource;
 use App\Http\Resources\CreateCourseResource;
 use App\Models\Instructor;
-
+use Illuminate\Support\Str;
 class CourseController extends Controller
 {
 
@@ -31,13 +31,13 @@ class CourseController extends Controller
 
         if ($instructor) {
             $image = $request->file('image');
-            $imageName = uuid_create() . '.' . $image->getClientOriginalExtension();
+            $imagePath =  $image->storeAs('images/courses', Str::uuid() . '.' . $image->getClientOriginalExtension(), 'public');
 
             // Create the course
             $course = Course::create([
                 'title' => $request->title,
-                'slug' => uuid_create(),
-                'image' => 'images/courses/' . $imageName,
+                'slug' => Str::uuid(),
+                'image' => $imagePath,
                 'description' => $request->description,
                 'instructor_id' => $instructor->id,
                 'location' => $request->location,

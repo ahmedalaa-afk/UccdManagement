@@ -75,11 +75,11 @@ return [
 
         'instructors' => [
             'driver' => 'database',
-            'table' => 'instructors',
+            'model' => App\Models\Instructor::class,
         ],
         'managers' => [
             'driver' => 'database',
-            'table' => 'managers',
+            'model' => App\Models\Manager::class,
         ],
     ],
 
@@ -111,13 +111,13 @@ return [
         ],
         'managers' => [
             'provider' => 'managers',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' =>  'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
         'instructors' => [
             'provider' => 'instructors',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'table' =>  'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
